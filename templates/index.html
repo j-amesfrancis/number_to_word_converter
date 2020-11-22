@@ -1,0 +1,111 @@
+{% load static %}
+
+<link rel="icon" href="{% static "icon.png" %}">
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<title>Number To Word Converter</title>
+<link>
+<body>
+<style>
+    body {
+        background-image: url("{% static 'gradient.jpg' %}");
+        background-size: cover;
+        user-select: none;
+        -moz-user-focus: ignore;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+
+    input[type='number']::-webkit-inner-spin-button,
+    input[type='number']::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        margin: 0;
+    }
+
+    .center {
+        position: relative;
+        text-align: center;
+        top: 30%;
+        
+    }
+
+    .input, button {
+        margin-top: 20px;
+    }
+
+    label {
+        font-size: 30px;
+        color: #00ffea;
+        text-transform: uppercase;
+    }
+
+    .answer {
+        font-size: 20px;
+        color: #ffffff;
+        text-transform: capitalize;
+        justify-content: center;
+    }
+
+    .note {
+        position: absolute;
+        font-size: 20px;
+        color: #fefdfe;
+        right: 0;
+        background-color: rgba(0, 255, 198, 0.13);
+        padding: 12px;
+        margin: 10px;
+        border-radius: 10px;
+        box-shadow: 0 0 0 5px rgb(146, 88, 255);
+    }
+</style>
+
+<div class="note" id="note">NB: Text to Speech may change based on your internet speed
+    <i id="close" style="font-size: 15px" class="material-icons">&#xe5cd;</i>
+</div>
+
+<div class="center">
+    <form method="post">
+        {% csrf_token %}
+        <label for="number">
+            Please Enter any Number
+            <input
+                    type="number"
+                    class="form-control input"
+                    min="0"
+                    max="999999999"
+                    value="{{ number }}"
+                    name="number"
+                    id="number"
+                    autocomplete="off">
+        </label>
+
+        <br>
+        <button class="btn btn-info">Convert</button>
+        <br>
+        <br>
+    </form>
+    <span class="answer">{{ word }}</span>
+
+    <audio autoplay hidden>
+        <source src="{% static 'speech.mp3' %}">
+    </audio>
+
+</div>
+
+<script>
+    $("#close").click(function () {
+        $('#note').fadeOut()
+    });
+    addEventListener('load', function () {
+        let note = document.getElementById('note');
+        setTimeout(function () {
+            note.style.transition = "10s";
+            note.style.transform = "rotateX(90deg)";
+            note.style.opacity = '0';
+        }, 5000)
+    })
+</script>
+</body>
